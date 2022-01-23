@@ -1,0 +1,23 @@
+{
+  "name": "projeto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15",
+
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "find-config": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mdb-ui-kit": "^3.9.0",
+    "nedb": "^1.8.0"
+  }
+}

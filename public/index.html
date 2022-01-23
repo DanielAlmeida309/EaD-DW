@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.10.2/css/all.css"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://www.markuptag.com/bootstrap/5/css/bootstrap.min.css"
+    />
+    <title>Document</title>
+</head>
+<body>
+    <header class="p-3 bg-dark text-white">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+            </ul>
+    
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+              <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+            </form>
+    
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-light me-2" id="btnModalLogin">Login</button>
+              <button type="button" class="btn btn-warning" id="btnModalRegistar">Sign-up</button>
+              <button type="button" class="btn btn-warning" id="btnLogoff">Logoff</button>
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="homepage">
+
+            <div class="carousel" data-carousel>
+                <button class="carousel-button prev" data-carousel-button="prev">
+                  &#8656;
+                </button>
+                <button class="carousel-button next" data-carousel-button="next">
+                  &#8658;
+                </button>
+                <ul data-slides>
+                  <li class="slide" data-active>
+                    <img
+                      src="images/escola-1.png"
+                      alt="School1"
+                    />
+                  </li>
+                  <li class="slide">
+                    <img
+                      src="images/escola-2.jpg"
+                      alt="School2"
+                    />
+                  </li>
+                  <li class="slide">
+                    <img
+                      src="images/escola-3.png"
+                      alt="School3"
+                    />
+                  </li>
+                </ul>
+            </div>
+
+            <div class="bg-dark text-secondary px-4 py-5 text-center" style="padding-top: 2vh;">
+                <div class="py-5">
+                  <h1 class="display-5 fw-bold text-white">Dark mode hero</h1>
+                  <div class="col-lg-6 mx-auto">
+                    <p class="fs-5 mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                      <button type="button" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Custom button</button>
+                      <button type="button" class="btn btn-outline-light btn-lg px-4">Secondary</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+    </main>
+    
+    <footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      </ul>
+      <p class="text-center text-muted">© 2021 Company, Inc</p>
+    </footer>
+    
+
+    <!-- Modal para registar novo utilizador -->
+    <!-- se retirar o data-bs-backdrop, o modal desaparece ao clicar no fundo da página -->
+    <div
+      class="modal fade"
+      id="modalRegistar"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Registo de novo utilizador
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">E-Mail</label>
+              <input
+                type="email"
+                class="form-control"
+                id="usernameRegistar"
+                name="usernameRegistar"
+                placeholder="E-Mail"
+              />
+              <p id="emailErroLoginRegistar"></p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Senha</label>
+              <input
+                type="password"
+                class="form-control"
+                id="senhaRegistar"
+                name="senhaRegistar"
+                placeholder="Senha"
+              />
+              <p id="statusRegistar"></p>
+            </div>
+            <div class="modal-footer d-block">
+              <button class="btn btn-warning float-end" data-bs-dismiss="modal">
+                Cancelar
+              </button>
+              <button
+                class="btn btn-outline-warning float-end"
+                id="btnSubmitRegistar"
+                onclick="validaRegisto()"
+              >
+                Submeter
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para fazer login -->
+    <!-- se retirar o data-bs-backdrop, o modal desaparece ao clicar no fundo da página -->
+    <div
+      class="modal fade"
+      id="modalLogin"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Insira suas credenciais
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              id="btnLoginClose"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">E-Mail</label>
+              <input
+                type="email"
+                class="form-control"
+                id="usernameLogin"
+                name="usernameLogin"
+                placeholder="E-Mail"
+              />
+              <p id="emailErroLogin"></p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Senha</label>
+              <input
+                type="password"
+                class="form-control"
+                id="senhaLogin"
+                name="senhaLogin"
+                placeholder="Senha"
+              />
+              <p id="passErroLogin"></p>
+              <p id="statusLogin"></p>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe" />
+              <label class="form-check-label" for="rememberMe"
+                >Lembrar-me</label
+              >
+            </div>
+            <div class="modal-footer d-block">
+              <p class="float-start">
+                Sem conta ainda? <a href="#" onclick="tradeModal()">Registe-se</a>
+              </p>
+              <button class="btn btn-warning float-end" data-bs-dismiss="modal">
+                Cancelar
+              </button>
+              <button
+                class="btn btn-outline-warning float-end"
+                id="btnSubmitLogin"
+                onclick="validaLogin()"
+              >
+                Submeter
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+    <script src="js/users.js"></script>
+</body>
+</html>
