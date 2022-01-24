@@ -1,0 +1,14 @@
+const env = process.env;
+
+const config = {
+  db: { /* Não é suposto expor aqui informação sensível */
+    host: env.DB_HOST || 'xpto',
+    user: env.DB_USER || 'xpto',
+    password: env.DB_PASSWORD || 'xpto',
+    database: env.DB_NAME || 'xpto',
+  },
+  listPerPage: env.LIST_PER_PAGE || 10,
+};
+
+
+module.exports = config;

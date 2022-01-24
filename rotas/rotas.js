@@ -4,11 +4,22 @@ module.exports = app => {
     var router = require("express").Router();
 
     // Cria um novo utilizador
-    router.post("/registar", controlador.registar);
+    router.post("/registarAluno", controlador.registarAluno);
+
+    // Cria um novo utilizador
+    router.post("/registarProfessor", controlador.registarProfessor);
   
     // Rota para login - tem de ser POST para não vir user e pass na URL
-    router.post("/login", controlador.login);
+    router.post("/loginAluno", controlador.loginAluno);
 
+    // Rota para login - tem de ser POST para não vir user e pass na URL
+    router.post("/loginProfessor", controlador.loginProfessor);
 
-    app.use('/', router);
+    // Rota para verificar e ativar o utilizador
+    router.get("/auth/confirmAluno/:confirmationCode", controlador.verificaAluno)
+
+    // Rota para verificar e ativar o utilizador
+    router.get("/auth/confirmProfessor/:confirmationCode", controlador.verificaProfessor)
+
+    app.use('/api', router);
 };

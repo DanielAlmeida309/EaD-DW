@@ -18,6 +18,12 @@
     "find-config": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "mdb-ui-kit": "^3.9.0",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "cookie-parser": "^1.4.6",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.1"
   }
 }
