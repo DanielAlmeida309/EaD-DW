@@ -177,28 +177,40 @@ exports.cRud_loginAluno = (email) => {
 
 // Retorna o utilizador e sua password encriptada
 exports.cRud_loginProfessor = (email) => {
-    return new Promise((resolve, reject) => {
-      // busca os registos que contêm a chave
-      query("SELECT email, active, pass from Professores WHERE email=?", [email])
-      .then((result) => {
-          user = {};
-          Object.keys(result).forEach(function (key) {
-            user = result[key];
-            console.log(user.email);
-          });
-          console.log("Model: Login: ");
-          console.log(user);
-          if (user.email != email) reject("Professor inexistente");
-          else resolve(user);
-        })
-        .catch((error) => {
-          console.log("Model: Problema no login:");
-          console.log(error);
-          reject(error);
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    query("SELECT email, active, pass from Professores WHERE email=?", [email])
+    .then((result) => {
+        user = {};
+        Object.keys(result).forEach(function (key) {
+          user = result[key];
+          console.log(user.email);
         });
-    });
-  };
+        console.log("Model: Login: ");
+        console.log(user);
+        if (user.email != email) reject("Professor inexistente");
+        else resolve(user);
+      })
+      .catch((error) => {
+        console.log("Model: Problema no login:");
+        console.log(error);
+        reject(error);
+      });
+  });
+};
 
+exports.cRud_all = () => {
+  return new Promise((resolve, reject) => {
+    // lê todos os registos
+    query("SELECT Disciplinas.nome AS 'NomeDisciplina', Professores.nome AS 'NomeProfessor' from Disciplinas, Professores WHERE Disciplinas.idProfessor = Professores.id")
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
 
 

@@ -256,4 +256,24 @@ exports.loginProfessor = async (req, res) => {
     });
 };
 
+// Envia todas as disciplinas
+exports.findAll = (req, res) => {
+  authenticateToken(req, res);
+  if (req.email != null) {
+    // utilizador autenticado
+    console.log(`FindAll - user: ${req.email.name}`);
+    console.log("Mensagem de debug - listar disciplinas");
+    dbmySQL
+      .cRud_all() // R: Read
+      .then((dados) => {
+        res.send(dados);
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Não há disciplinas para mostrar!" });
+      });
+  }
+};
+
 

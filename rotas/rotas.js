@@ -16,10 +16,13 @@ module.exports = app => {
     router.post("/loginProfessor", controlador.loginProfessor);
 
     // Rota para verificar e ativar o utilizador
-    router.get("/auth/confirmAluno/:confirmationCode", controlador.verificaAluno)
+    router.get("/auth/confirmAluno/:confirmationCode", controlador.verificaAluno);
 
     // Rota para verificar e ativar o utilizador
-    router.get("/auth/confirmProfessor/:confirmationCode", controlador.verificaProfessor)
+    router.get("/auth/confirmProfessor/:confirmationCode", controlador.verificaProfessor);
+
+    // Envia lista de disciplinas e docentes associados
+    router.get("/disciplinas/", controlador.findAll);
 
     app.use('/api', router);
 };
