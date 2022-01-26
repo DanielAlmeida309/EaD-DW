@@ -276,4 +276,92 @@ exports.findAll = (req, res) => {
   }
 };
 
+// READ Disciplinas de um Professor
+exports.findDisciplinasProf = async (req, res) => {
+  authenticateToken(req, res);
+  if (req.email != null) {
+    // utilizador autenticado
+    console.log("Find All Disciplines by Teacher Id");
+    console.log("Parâmetro: " + req.params.id);
+    //Deve implementar esta funcionalidade...
+    const id = req.params.id.substr(1); // faz substring a partir do segundo carater
+    dbmySQL
+      .cRud_disciplinasProf(id) // R: Read
+      .then((dados) => {
+        res.send(dados);
+        // console.log("Dados: " + JSON.stringify(dados)); // para debug
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Não há disciplinas para mostrar!" });
+      });
+  }
+};
 
+// READ Disciplina de um id
+exports.findDisciplina = async (req, res) => {
+  authenticateToken(req, res);
+  if (req.email != null) {
+    // utilizador autenticado
+    console.log("Find All Disciplines by Teacher Id");
+    console.log("Parâmetro: " + req.params.id);
+    //Deve implementar esta funcionalidade...
+    const id = req.params.id.substr(1); // faz substring a partir do segundo carater
+    dbmySQL
+      .cRud_disciplina(id) // R: Read
+      .then((dados) => {
+        res.send(dados);
+        // console.log("Dados: " + JSON.stringify(dados)); // para debug
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Não há disciplina para mostrar!" });
+      });
+  }
+};
+
+exports.findArtigosDisciplina = async (req, res) => {
+  authenticateToken(req, res);
+  if (req.email != null) {
+    // utilizador autenticado
+    console.log("Find All Articles by Discipline Id");
+    console.log("Parâmetro: " + req.params.id);
+    //Deve implementar esta funcionalidade...
+    const id = req.params.id.substr(1); // faz substring a partir do segundo carater
+    dbmySQL
+      .cRud_artigosDisciplina(id) // R: Read
+      .then((dados) => {
+        res.send(dados);
+        // console.log("Dados: " + JSON.stringify(dados)); // para debug
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Não há artigos para mostrar!" });
+      });
+  }
+};
+
+exports.findPerguntasDisciplina = async (req, res) => {
+  authenticateToken(req, res);
+  if (req.email != null) {
+    // utilizador autenticado
+    console.log("Find All Questions by disciplina Id");
+    console.log("Parâmetro: " + req.params.id);
+    //Deve implementar esta funcionalidade...
+    const id = req.params.id.substr(1); // faz substring a partir do segundo carater
+    dbmySQL
+      .cRud_perguntasDisciplina(id) // R: Read
+      .then((dados) => {
+        res.send(dados);
+        // console.log("Dados: " + JSON.stringify(dados)); // para debug
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Não há disciplinas para mostrar!" });
+      });
+  }
+};

@@ -212,7 +212,54 @@ exports.cRud_all = () => {
   });
 };
 
+exports.cRud_disciplinasProf = (id) => {
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    query("SELECT * FROM Disciplinas WHERE idProfessor=?", [id])
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
+exports.cRud_disciplina = (id) => {
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    query("SELECT * FROM Disciplinas WHERE id=?", [id])
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
+exports.cRud_artigosDisciplina = (id) => {
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    query("SELECT Artigos.* FROM Artigos WHERE idDisciplina=?", [id])
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
-
+exports.cRud_perguntasDisciplina = (id) => {
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    query("SELECT Perguntas.id, Perguntas.pergunta, Pergunta.resposta1, Pergunta.resposta2, Pergunta.resposta3, Pergunta.resposta4, Pergunta.resposta5 FROM Perguntas WHERE idDisciplina=?", [id])
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

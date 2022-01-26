@@ -24,5 +24,20 @@ module.exports = app => {
     // Envia lista de disciplinas e docentes associados
     router.get("/disciplinas/", controlador.findAll);
 
+    // Busca todas as disciplinas de um professor
+    router.get("/disciplinas/professor/:id", controlador.findDisciplinasProf);
+
+    // Busca todas as disciplinas de um professor
+    router.get("/disciplinas/:id", controlador.findDisciplina);
+
+    // Busca todas os artigos de uma disciplina
+    router.get("/artigos/disciplinas/:id", controlador.findArtigosDisciplina);
+
+    // Busca todas as perguntas de uma disciplina
+    router.get("/perguntas/disciplina/:id", controlador.findPerguntasDisciplina);
+
+    // Verifica se as repostas dadas no questionario estão certas
+    //router.post("questionario/disciplina/:id", controlador.checkQuestionario);
+
     app.use('/api', router);
 };
