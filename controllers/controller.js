@@ -259,7 +259,6 @@ exports.loginProfessor = async (req, res) => {
 // Envia todas as disciplinas
 exports.findAll = (req, res) => {
   authenticateToken(req, res);
-  if (req.email != null) {
     // utilizador autenticado
     console.log(`FindAll - user: ${req.email.name}`);
     console.log("Mensagem de debug - listar disciplinas");
@@ -273,13 +272,11 @@ exports.findAll = (req, res) => {
           .status(400)
           .send({ message: "Não há disciplinas para mostrar!" });
       });
-  }
 };
 
 // READ Disciplinas de um Professor
 exports.findDisciplinasProf = async (req, res) => {
   authenticateToken(req, res);
-  if (req.email != null) {
     // utilizador autenticado
     console.log("Find All Disciplines by Teacher Id");
     console.log("Parâmetro: " + req.params.id);
@@ -296,13 +293,11 @@ exports.findDisciplinasProf = async (req, res) => {
           .status(400)
           .send({ message: "Não há disciplinas para mostrar!" });
       });
-  }
 };
 
 // READ Disciplina de um id
 exports.findDisciplina = async (req, res) => {
   authenticateToken(req, res);
-  if (req.email != null) {
     // utilizador autenticado
     console.log("Find All Disciplines by Teacher Id");
     console.log("Parâmetro: " + req.params.id);
@@ -319,12 +314,10 @@ exports.findDisciplina = async (req, res) => {
           .status(400)
           .send({ message: "Não há disciplina para mostrar!" });
       });
-  }
 };
 
 exports.findArtigosDisciplina = async (req, res) => {
   authenticateToken(req, res);
-  if (req.email != null) {
     // utilizador autenticado
     console.log("Find All Articles by Discipline Id");
     console.log("Parâmetro: " + req.params.id);
@@ -341,12 +334,10 @@ exports.findArtigosDisciplina = async (req, res) => {
           .status(400)
           .send({ message: "Não há artigos para mostrar!" });
       });
-  }
 };
 
 exports.findPerguntasDisciplina = async (req, res) => {
   authenticateToken(req, res);
-  if (req.email != null) {
     // utilizador autenticado
     console.log("Find All Questions by disciplina Id");
     console.log("Parâmetro: " + req.params.id);
@@ -363,5 +354,63 @@ exports.findPerguntasDisciplina = async (req, res) => {
           .status(400)
           .send({ message: "Não há disciplinas para mostrar!" });
       });
+};
+
+exports.findArtigo = async (req, res) => {
+  authenticateToken(req, res);
+  if (req.email != null) {
+    // utilizador autenticado
+    console.log("Find All Articles by Discipline Id");
+    console.log("Parâmetro: " + req.params.id);
+    //Deve implementar esta funcionalidade...
+    const id = req.params.id.substr(1); // faz substring a partir do segundo carater
+    dbmySQL
+      .cRud_artigo(id) // R: Read
+      .then((dados) => {
+        res.send(dados);
+        // console.log("Dados: " + JSON.stringify(dados)); // para debug
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Não há artigos para mostrar!" });
+      });
   }
+};
+
+exports.findALunosDisciplina = async (req, res) => {
+  authenticateToken(req, res);
+    // utilizador autenticado
+    console.log("Find All Questions by disciplina Id");
+    console.log("Parâmetro: " + req.params.id);
+    //Deve implementar esta funcionalidade...
+    const id = req.params.id.substr(1); // faz substring a partir do segundo carater
+    dbmySQL
+      .cRud_alunosDisciplina(id) // R: Read
+      .then((dados) => {
+        res.send(dados);
+        // console.log("Dados: " + JSON.stringify(dados)); // para debug
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Não há disciplinas para mostrar!" });
+      });
+
+};
+
+exports.addConquista = async (req, res) => {
+  dbmySQL
+    .crUd_addConquista(req)
+    .then(() => {
+      const resposta = { message: "O Aluno concluiu a Disciplina com sucesso!" };
+      console.log(resposta);
+      return res.send(resposta);
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(400).send({
+        message: JSON.stringify(response),
+      });
+    });
 };

@@ -241,7 +241,7 @@ exports.cRud_disciplina = (id) => {
 exports.cRud_artigosDisciplina = (id) => {
   return new Promise((resolve, reject) => {
     // busca os registos que contêm a chave
-    query("SELECT Artigos.* FROM Artigos WHERE idDisciplina=?", [id])
+    query("SELECT id, nome FROM Artigos WHERE idDisciplina=?", [id])
       .then((result) => {
         resolve(result);
       })
@@ -263,3 +263,31 @@ exports.cRud_perguntasDisciplina = (id) => {
       });
   });
 };
+
+exports.cRud_artigosDisciplina = (id) => {
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    query("SELECT id, nome, assunto FROM Artigos WHERE id=?", [id])
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+exports.cRud_alunosDisciplina = (id) => {
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    query("SELECT id, nome FROM Artigos WHERE idDisciplina=?", [id])
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+//algo que nao me lembro o que era
+
