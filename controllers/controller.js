@@ -414,3 +414,168 @@ exports.addConquista = async (req, res) => {
       });
     });
 };
+
+// REGISTAR Disciplina
+exports.registarDisciplina = async (req, res) => {
+  console.log("Registar nova disciplina");
+  if (!req.body) {
+    return res.status(400).send({
+      message: "O conteúdo não pode ser vazio!",
+    });
+  }
+
+  const idProfessor = req.body.email;
+  const nome = req.body.nome;
+
+  dbmySQL
+    .Crud_registarProfessor(idProfessor, nome) // C: Create
+    .then((dados) => {
+      res.status(201).send({
+        message:
+          "Disciplina criada com sucesso!",
+      });
+      console.log("Controller - Disciplina registado: ");
+      console.log(JSON.stringify(dados)); // para debug
+    })
+    .catch((response) => {
+      console.log("Controller - problema ao registar:");
+      console.log(response);
+      return res.status(400).send({
+        message: JSON.stringify(response),
+      });
+    });
+};
+
+// REGISTAR Artigo
+exports.registarArtigo = async (req, res) => {
+  console.log("Registar novo artigo");
+  if (!req.body) {
+    return res.status(400).send({
+      message: "O conteúdo não pode ser vazio!",
+    });
+  }
+
+  const idDisciplina = req.body.idDisciplina;
+  const nome = req.body.nome;
+  const assunto = req.body.assunto;
+
+  dbmySQL
+    .Crud_registarArtigo(idDisciplina, nome, assunto) // C: Create
+    .then((dados) => {
+      res.status(201).send({
+        message:
+          "Disciplina criada com sucesso!",
+      });
+      console.log("Controller - Disciplina registado: ");
+      console.log(JSON.stringify(dados)); // para debug
+    })
+    .catch((response) => {
+      console.log("Controller - problema ao registar:");
+      console.log(response);
+      return res.status(400).send({
+        message: JSON.stringify(response),
+      });
+    });
+};
+
+// REGISTAR Artigo
+exports.registarPerguntas = async (req, res) => {
+  console.log("Registar novo artigo");
+  if (!req.body) {
+    return res.status(400).send({
+      message: "O conteúdo não pode ser vazio!",
+    });
+  }
+
+  const idDisciplina = req.body.idDisciplina;
+  const pergunta = req.body.pergunta;
+  const resposta1 = req.body.resposta1;
+  const resposta2 = req.body.resposta2;
+  const resposta3 = req.body.resposta3;
+  const resposta4 = req.body.resposta4;
+  const resposta5 = req.body.resposta5;
+  const certa = req.body.certa;
+
+
+  dbmySQL
+    .Crud_registarPergunta(idDisciplina, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5, certa) // C: Create
+    .then((dados) => {
+      res.status(201).send({
+        message:
+          "Pergunta criada com sucesso!",
+      });
+      console.log("Controller - Pergunta registada: ");
+      console.log(JSON.stringify(dados)); // para debug
+    })
+    .catch((response) => {
+      console.log("Controller - problema ao registar:");
+      console.log(response);
+      return res.status(400).send({
+        message: JSON.stringify(response),
+      });
+    });
+};
+
+// REGISTAR Artigo
+exports.inscricaoDisciplina = async (req, res) => {
+  console.log("Registar novo artigo");
+  if (!req.body) {
+    return res.status(400).send({
+      message: "O conteúdo não pode ser vazio!",
+    });
+  }
+
+  const idDisciplina = req.body.idDisciplina;
+  const idAluno = req.body.idAluno;
+
+  dbmySQL
+    .Crud_incricaoDisciplina(idDisciplina, idAluno) // C: Create
+    .then((dados) => {
+      res.status(201).send({
+        message:
+          "Inscrição feita com sucesso!",
+      });
+      console.log("Controller - Inscrição registada: ");
+      console.log(JSON.stringify(dados)); // para debug
+    })
+    .catch((response) => {
+      console.log("Controller - problema ao registar:");
+      console.log(response);
+      return res.status(400).send({
+        message: JSON.stringify(response),
+      });
+    });
+};
+
+conquistaDisciplina
+// REGISTAR Conquista
+exports.conquistaDisciplina = async (req, res) => {
+  console.log("Registar nova conquista");
+  if (!req.body) {
+    return res.status(400).send({
+      message: "O conteúdo não pode ser vazio!",
+    });
+  }
+
+  const idDisciplina = req.body.idDisciplina;
+  const idAluno = req.body.idAluno;
+  const notaFinal = req.body.notaFinal
+
+  dbmySQL
+    .Crud_conquistaDisciplina(idDisciplina, idAluno, notaFinal) // C: Create
+    .then((dados) => {
+      res.status(201).send({
+        message:
+          "Conquista registada com sucesso!",
+      });
+      console.log("Controller - Conquista registada: ");
+      console.log(JSON.stringify(dados)); // para debug
+    })
+    .catch((response) => {
+      console.log("Controller - problema ao registar:");
+      console.log(response);
+      return res.status(400).send({
+        message: JSON.stringify(response),
+      });
+    });
+};

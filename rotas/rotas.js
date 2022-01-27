@@ -48,5 +48,20 @@ module.exports = app => {
     // Rota adicionar nova conquista
     router.get("/conquista/disciplina/:idD/aluno/:idA", controlador.addConquista)
 
+    // Cria uma nova disciplina
+    router.post("/registarDisciplina", controlador.registarDisciplina);
+
+    // Cria um novo artigo
+    router.post("/registarArtigo", controlador.registarArtigo);
+
+    //Cria perguntas para a disciplina
+    router.post("/disciplina/perguntas", controlador.registarPerguntas);
+
+    //Fazer inscrição de um aluno a uma disciplina
+    router.post("/disciplina/inscricao", controlador.inscricaoDisciplina);
+
+    //Fazer registo de conquista
+    router.post("/disciplina/conquista", controlador.conquistaDisciplina);
+
     app.use('/api', router);
 };

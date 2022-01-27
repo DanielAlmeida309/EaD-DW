@@ -289,5 +289,147 @@ exports.cRud_alunosDisciplina = (id) => {
       });
   });
 };
-//algo que nao me lembro o que era
 
+exports.Crud_registarDisciplina = (idProfessor, nome) => {
+  // insere uma nova disciplina
+  return new Promise((resolve, reject) => {
+    data = {
+      nome: nome,
+      idProfessor: idProfessor
+    };
+    query(
+      "INSERT INTO Disciplinas (idProfessor, nome) values (?,?)",
+      [data.idProfessor, data.nome]
+    )
+      .then((result) => {
+        console.log("Model: Registo de disciplina: ");
+        console.log(data);
+        console.log(result);
+        if (result.affectedRows != 1)
+          reject("Model: Problema na inserção de novo registo");
+        else resolve(result);
+      })
+      .catch((error) => {
+        console.log("Model: Problema no registo:");
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+exports.Crud_registarArtigo = (idDisciplina, nome, assunto) => {
+  // insere um novo artigo
+  return new Promise((resolve, reject) => {
+    data = {
+      idCisciplina: idDisciplina,
+      nome: nome,
+      assunto: assunto
+    };
+    query(
+      "INSERT INTO Artigos (idDisciplina, nome, assunto) values (?,?,?)",
+      [data.idDisciplina, data.nome, data.assunto]
+    )
+      .then((result) => {
+        console.log("Model: Registo de artigos: ");
+        console.log(data);
+        console.log(result);
+        if (result.affectedRows != 1)
+          reject("Model: Problema na inserção de novo registo");
+        else resolve(result);
+      })
+      .catch((error) => {
+        console.log("Model: Problema no registo:");
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+exports.Crud_registarPergunta = (idDisciplina, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5, certa) => {
+  // insere uma nova pergunta
+  return new Promise((resolve, reject) => {
+    data = {
+      idCisciplina: idDisciplina,
+      pergunta: pergunta,
+      resposta1: resposta1,
+      resposta2: resposta2,
+      resposta3: resposta3,
+      resposta4: resposta4,
+      resposta5: resposta5,
+      certa: certa
+    };
+    query(
+      "INSERT INTO Perguntas (idDisciplina, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5, certa) values (?,?,?,?,?,?,?,?)",
+      [data.idDisciplina, data.pergunta, data.resposta1, data.resposta2, data.resposta3, data.resposta4, data.resposta5, data.certa]
+    )
+      .then((result) => {
+        console.log("Model: Registo de Perguntas: ");
+        console.log(data);
+        console.log(result);
+        if (result.affectedRows != 1)
+          reject("Model: Problema na inserção de novo registo");
+        else resolve(result);
+      })
+      .catch((error) => {
+        console.log("Model: Problema no registo:");
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+exports.Crud_incricaoDisciplina = (idDisciplina, idAluno) => {
+  // insere uma nova inscrição
+  return new Promise((resolve, reject) => {
+    data = {
+      idCisciplina: idDisciplina,
+      idAluno: idAluno
+    };
+    query(
+      "INSERT INTO Artigos (idDisciplina, idAluno) values (?,?)",
+      [data.idDisciplina, data.idAluno]
+    )
+      .then((result) => {
+        console.log("Model: Registo de inscrição: ");
+        console.log(data);
+        console.log(result);
+        if (result.affectedRows != 1)
+          reject("Model: Problema na inserção de novo registo");
+        else resolve(result);
+      })
+      .catch((error) => {
+        console.log("Model: Problema no registo:");
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+
+exports.Crud_conquistaDisciplina = (idDisciplina, idAluno, notaFinal) => {
+  // insere uma nova inscrição
+  return new Promise((resolve, reject) => {
+    data = {
+      idCisciplina: idDisciplina,
+      idAluno: idAluno,
+      notaFinal: notaFinal
+    };
+    query(
+      "INSERT INTO Conquistas (idDisciplina, idAluno, notaFinal) values (?,?,?)",
+      [data.idDisciplina, data.idAluno, data.notaFinal]
+    )
+      .then((result) => {
+        console.log("Model: Registo de conquista: ");
+        console.log(data);
+        console.log(result);
+        if (result.affectedRows != 1)
+          reject("Model: Problema na inserção de novo registo");
+        else resolve(result);
+      })
+      .catch((error) => {
+        console.log("Model: Problema no registo:");
+        console.log(error);
+        reject(error);
+      });
+  });
+};
