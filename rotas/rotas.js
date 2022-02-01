@@ -45,9 +45,6 @@ module.exports = app => {
     // Verifica se as repostas dadas no questionario estão certas
     //router.post("questionario/disciplina/:id", controlador.checkQuestionario);
 
-    // Rota adicionar nova conquista
-    router.get("/conquista/disciplina/:idD/aluno/:idA", controlador.addConquista)
-
     // Cria uma nova disciplina
     router.post("/registarDisciplina", controlador.registarDisciplina);
 

@@ -547,7 +547,6 @@ exports.inscricaoDisciplina = async (req, res) => {
     });
 };
 
-conquistaDisciplina
 // REGISTAR Conquista
 exports.conquistaDisciplina = async (req, res) => {
   console.log("Registar nova conquista");
