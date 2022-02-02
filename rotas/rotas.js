@@ -22,7 +22,7 @@ module.exports = app => {
     router.get("/auth/confirmProfessor/:confirmationCode", controlador.verificaProfessor);
 
     // Envia lista de disciplinas e docentes associados
-    router.get("/disciplinas/", controlador.findAll);
+    // router.get("/disciplinas/", controlador.findAll);
 
     // Busca todas as disciplinas de um professor
     router.get("/disciplinas/professor/:id", controlador.findDisciplinasProf);
@@ -59,6 +59,10 @@ module.exports = app => {
 
     //Fazer registo de conquista
     router.post("/disciplina/conquista", controlador.conquistaDisciplina);
+
+    router.post("/aluno/disciplina", controlador.alunosDisciplina);
+
+    router.get("/disciplinas", controlador.allDisciplinas);
 
     app.use('/api', router);
 };

@@ -187,8 +187,9 @@ exports.loginAluno = async (req, res) => {
   dbmySQL
     .cRud_loginAluno(email) //
     .then(async (dados) => {
-      if (await bcrypt.compare(req.body.password, dados.pass)) {
-        const user = { name: email };
+      if (await bcrypt.compare(req.body.password, dados.pass)) {        
+        const user = dados;
+        console.log(user);
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
           expiresIn: 20 * 60,
         });
@@ -197,7 +198,7 @@ exports.loginAluno = async (req, res) => {
           maxAge: 1000 * 60 * 2,
           httpOnly: true,
         });
-        res.status(200).send({ user: email }); // aqui temos de enviar a token de autorização
+        res.status(200).send({ user, accessToken }); // aqui temos de enviar a token de autorização
         console.log("Resposta da consulta à base de dados: ");
         console.log(JSON.stringify(dados)); // para debug
       } else {
@@ -578,3 +579,30 @@ exports.conquistaDisciplina = async (req, res) => {
       });
     });
 };
+
+exports.alunosDisciplina = async (req, res) => {
+  console.log("Verifica a disciplina que o aluno esta registado");
+  if (!req.body) {
+    return res.status(400).send({
+      message: "O conteúdo não pode ser vazio!",
+    });
+  }
+
+  const idAluno = req.body.idAluno;
+
+  dbmySQL
+  .Crud_alunoDisciplina(idAluno)
+  .then((dados) => {
+    console.log(dados)
+    res.send({dados});
+  })
+};
+
+exports.allDisciplinas = async (req, res) => {
+
+  dbmySQL
+  .Crud_disciplinas()
+  .then((dados) => {
+    res.send(dados);
+  })
+}

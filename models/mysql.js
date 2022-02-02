@@ -1,3 +1,4 @@
+const { reject } = require("bcrypt/promises");
 const mysql = require("mysql2/promise");
 const config = require("../config");
 
@@ -155,12 +156,12 @@ exports.crUd_ativarProfessor = (confirmationToken) => {
 exports.cRud_loginAluno = (email) => {
   return new Promise((resolve, reject) => {
     // busca os registos que contêm a chave
-    query("SELECT email, active, pass from Alunos WHERE email=?", [email])
+    query("SELECT id, email, active, pass from Alunos WHERE email=?", [email])
       .then((result) => {
         user = {};
         Object.keys(result).forEach(function (key) {
           user = result[key];
-          console.log(user.email);
+          console.log(user);
         });
         console.log("Model: Login: ");
         console.log(user);
@@ -382,11 +383,11 @@ exports.Crud_incricaoDisciplina = (idDisciplina, idAluno) => {
   // insere uma nova inscrição
   return new Promise((resolve, reject) => {
     data = {
-      idCisciplina: idDisciplina,
+      idDisciplina: idDisciplina,
       idAluno: idAluno
     };
     query(
-      "INSERT INTO Artigos (idDisciplina, idAluno) values (?,?)",
+      "INSERT INTO inscricoes (idDisciplina, idAluno) values (?,?)",
       [data.idDisciplina, data.idAluno]
     )
       .then((result) => {
@@ -433,3 +434,31 @@ exports.Crud_conquistaDisciplina = (idDisciplina, idAluno, notaFinal) => {
       });
   });
 };
+
+exports.Crud_alunoDisciplina = (idAluno) => {
+  console.log(`Dentro do CRUD, idALuno: ${idAluno}`);
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT idAluno, idDisciplina FROM inscricoes WHERE idAluno = ?",
+      [idAluno]
+    )
+    .then((result) => {
+      console.log(`idAluno: ${result.idAluno} idDisciplina: ${result.idDisciplina}`);
+      resolve(result);
+    })
+    .catch((error => reject(error)));
+  })
+}
+
+exports.Crud_disciplinas = () => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT id, nome FROM disciplinas",
+    )
+    .then((result) => {
+      console.log(result);
+      resolve(result);
+    })
+    .catch((error => reject(error)));
+  })
+}
