@@ -180,7 +180,7 @@ exports.cRud_loginAluno = (email) => {
 exports.cRud_loginProfessor = (email) => {
   return new Promise((resolve, reject) => {
     // busca os registos que contêm a chave
-    query("SELECT email, active, pass from Professores WHERE email=?", [email])
+    query("SELECT id, email, active, pass from Professores WHERE email=?", [email])
     .then((result) => {
         user = {};
         Object.keys(result).forEach(function (key) {
@@ -488,5 +488,56 @@ exports.Crud_alunoName = (idAluno) => {
       resolve(result);
     })
     .catch((error => reject(error)));
+  })
+}
+
+exports.Crud_professorName = (idProfessor) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT nome FROM professores Where id = ?",
+      [idProfessor]
+    )
+    .then((result) => {
+      console.log(result);
+      resolve(result);
+    })
+    .catch((error => reject(error)));
+  })
+}
+
+exports.Crud_professorDisciplinas = (idProfessor) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT * FROM disciplinas Where idProfessor = ?",
+      [idProfessor]
+    )
+    .then((result) => {
+      console.log(result);
+      resolve(result);
+    })
+    .catch((error => reject(error)));
+  })
+}
+
+exports.Crud_professorCriarDisciplina = (idProfessor, nomeDisciplina) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "INSERT INTO Disciplinas (idProfessor, nome) VALUES (?, ?)",
+      [idProfessor, nomeDisciplina]
+    )
+    .then((result) => {
+      console.log("Model: Registo de inscrição: ");
+      if (result.affectedRows != 1) {        
+        reject("Model: Problema na inserção de novo registo");
+      }
+      else {        
+        resolve(result);
+      }
+    })
+    .catch((error) => {
+      console.log("Model: Problema no registo:");
+      console.log(error);
+      reject(error);
+    });
   })
 }

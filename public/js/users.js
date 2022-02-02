@@ -170,16 +170,19 @@ function validaLogin() {
           erro = await(response.json())
           throw new Error(erro.msg);
         }
+        console.log("opa fion");
         result = await response.json();
-        console.log(result.accessToken);
+        console.log(result);
         const token = result.accessToken;
         localStorage.setItem("token", token);
+        localStorage.setItem("userId", result.user.id);
         document.getElementById("statusLogin").innerHTML = "Sucesso!";
         document.getElementById("btnLoginClose").click();
         btnModalLogin.style.display = "none";
         btnModalRegistar.style.display = "none";
         // sectionHomepage.style.display = "none";
         document.getElementById("btnLogoff").style.display = "block";
+        professorPage();
       })
       .catch(async (error) => {
         statLogin.innerHTML = error
@@ -188,10 +191,58 @@ function validaLogin() {
   }
 }
 
+function mainPage() {
+  const mainTag = document.querySelector("main");
+
+  let mainText = `
+  <section id="homepage">
+            <div class="carousel" data-carousel>
+                <button class="carousel-button prev" data-carousel-button="prev">
+                  &#8656;
+                </button>
+                <button class="carousel-button next" data-carousel-button="next">
+                  &#8658;
+                </button>
+                <ul data-slides>
+                  <li class="slide" data-active>
+                    <img
+                      src="images/escola-1.png"
+                      alt="School1"
+                    />
+                  </li>
+                  <li class="slide">
+                    <img
+                      src="images/escola-2.jpg"
+                      alt="School2"
+                    />
+                  </li>
+                  <li class="slide">
+                    <img
+                      src="images/escola-3.png"
+                      alt="School3"
+                    />
+                  </li>
+                </ul>
+            </div>
+
+            <div class="bg-dark text-secondary px-4 py-5 text-center" style="padding-top: 2vh;">
+                <div class="py-5">
+                  <h1 class="display-5 fw-bold text-white">Dark mode hero</h1>
+                  <div class="col-lg-6 mx-auto">
+                    <p class="fs-5 mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                      <button type="button" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Custom button</button>
+                      <button type="button" class="btn btn-outline-light btn-lg px-4">Secondary</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+  `;
+  mainTag.innerHTML = mainText;
+} 
 
 function alunoPage() {
-  
-
   fetch(`${urlBase}/aluno/disciplina`, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -211,15 +262,11 @@ function alunoPage() {
       alunoPageDisciplina();
     }
   })
-
-  
-
-
+  .catch(error => console.log);
 }
 
 function alunoPageDisciplina() {
-  const mainTag = document.querySelector("main");
-  
+  const mainTag = document.querySelector("main");  
   
   fetch(`${urlBase}/aluno/name`, {
     headers: {
@@ -310,68 +357,12 @@ function alunoPageDisciplina() {
             </div>
           </div>
       </div>
-      `;
+    `;
   
     mainTag.innerHTML = mainText;
     })
-  })
-  
-  
-  
-  
-  
+  })  
 }
-
-function mainPage() {
-  const mainTag = document.querySelector("main");
-
-  let mainText = `
-  <section id="homepage">
-            <div class="carousel" data-carousel>
-                <button class="carousel-button prev" data-carousel-button="prev">
-                  &#8656;
-                </button>
-                <button class="carousel-button next" data-carousel-button="next">
-                  &#8658;
-                </button>
-                <ul data-slides>
-                  <li class="slide" data-active>
-                    <img
-                      src="images/escola-1.png"
-                      alt="School1"
-                    />
-                  </li>
-                  <li class="slide">
-                    <img
-                      src="images/escola-2.jpg"
-                      alt="School2"
-                    />
-                  </li>
-                  <li class="slide">
-                    <img
-                      src="images/escola-3.png"
-                      alt="School3"
-                    />
-                  </li>
-                </ul>
-            </div>
-
-            <div class="bg-dark text-secondary px-4 py-5 text-center" style="padding-top: 2vh;">
-                <div class="py-5">
-                  <h1 class="display-5 fw-bold text-white">Dark mode hero</h1>
-                  <div class="col-lg-6 mx-auto">
-                    <p class="fs-5 mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
-                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                      <button type="button" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Custom button</button>
-                      <button type="button" class="btn btn-outline-light btn-lg px-4">Secondary</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        </section>
-  `;
-  mainTag.innerHTML = mainText;
-} 
 
 function alunoRegistoDisciplina() {
   fetch(`${urlBase}/disciplinas`, {
@@ -383,10 +374,7 @@ function alunoRegistoDisciplina() {
   })
   .then(async (response) => {
     result = await response.json();
-    console.log(result)  
-    
-    
-
+    console.log(result)
     const mainTag = document.querySelector("main");
     let mainText = `
       <div class="container">           
@@ -409,14 +397,9 @@ function alunoRegistoDisciplina() {
     </div>
     `;
     mainTag.innerHTML = mainText;
-
-    
-
   })
+  .catch(error => console.log)
 }
-
-
-
 
 function inscricaoDisciplina(idDisciplina, idAluno) {
   fetch(`${urlBase}/disciplina/inscricao`, {
@@ -430,5 +413,102 @@ function inscricaoDisciplina(idDisciplina, idAluno) {
     localStorage.setItem("idDisciplina", idDisciplina);
     alunoPage()
   })
+  .catch(error => console.log);
+
+}
+
+function professorPage() {
+  const mainTag = document.querySelector("main"); 
+  fetch(`${urlBase}/professor/name`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idProfessor=${localStorage.userId}`,
+  })
+  .then(async (response) => {    
+    let result = await response.json();
+    console.log(result)
+    let mainText = `
+    <div class="container">            
+            <div class="row">
+              <div class="col-4 profile">
+                <div class="card" style="width: 18rem;">                    
+                    <div class="card-body">
+                        <h5 class="card-title">Professor ${result[0].nome}</h5>                        
+                        <div class="btn-group-vertical" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-outline-primary" onclick="professorListarDisciplinas()">Listar Disciplinas</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="professorCriarDisciplina()">Criar Nova Disciplinas</button>                            
+                          </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-8 articles">
+                  
+              </div>
+            </div>
+        </div>
+    `;
+
+    mainTag.innerHTML = mainText;
+    professorListarDisciplinas();
+  })
+}
+
+function professorListarDisciplinas() {
+  const articleTag = document.querySelector(".articles");
+  fetch(`${urlBase}/professor/disciplinas`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idProfessor=${localStorage.userId}`,
+  })
+  .then(async (response) => {
+    let result = await response.json();
+    console.log(result);
+    let articleText = `
+      <h2 class="text-center">Disciplinas</h2>
+        <div class="list-group">
+    `;
+
+    for(let obj of result) {
+      articleText += `<button type="button" class="list-group-item list-group-item-action" value="${obj.id}">${obj.nome}</button>`
+    }
+
+    articleText += `
+      </div>
+        </div>
+    `;
+
+    articleTag.innerHTML = articleText;
+  })
+}
+
+function professorCriarDisciplina() {
+  const articleTag = document.querySelector(".articles");
+  let articleText = `
+    <h2 class="text-center">Criar Nova Disciplina</h2>
+    <div class="mb-3">
+      <label for="inputNomeDisciplina" class="form-label">Nome da Disciplina</label>
+      <input type="email" class="form-control" id="inputNomeDisciplina" aria-describedby="emailHelp">                      
+    </div>                    
+    <button type="submit" class="btn btn-primary" onclick="criarDisciplina(localStorage.userId, document.querySelector('#inputNomeDisciplina').value)">Submit</button>
+  `;
+  articleTag.innerHTML = articleText;
+}
+
+function criarDisciplina(idProfessor, nomeDisciplina) {
+  fetch(`${urlBase}/professor/criarDisciplina`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idProfessor=${idProfessor}&nomeDisciplina=${nomeDisciplina}`,
+  })
+  .then(() => {
+    professorListarDisciplinas();
+  })
+  .catch(error => console.log);
 
 }

@@ -231,7 +231,7 @@ exports.loginProfessor = async (req, res) => {
     .cRud_loginProfessor(email) //
     .then(async (dados) => {
       if (await bcrypt.compare(req.body.password, dados.pass)) {
-        const user = { name: email };
+        const user = dados;
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
           expiresIn: 20 * 60,
         });
@@ -240,8 +240,9 @@ exports.loginProfessor = async (req, res) => {
           maxAge: 1000 * 60 * 2,
           httpOnly: true,
         });
-        res.status(200).send({ user: email }); // aqui temos de enviar a token de autorização
+        res.status(200).send({ user, accessToken }); // aqui temos de enviar a token de autorização
         console.log("Resposta da consulta à base de dados: ");
+        console.log("to aqui");
         console.log(JSON.stringify(dados)); // para debug
       } else {
         console.log("Password incorreta");
@@ -624,4 +625,32 @@ exports.alunoName = async (req, res) => {
   .then((dados) => {
     res.send(dados);
   })
+}
+
+exports.professorName = async (req, res) => {
+  const idProfessor = req.body.idProfessor;
+  console.log(`idProfessor: ${idProfessor}`)
+  dbmySQL
+  .Crud_professorName(idProfessor)
+  .then((dados) => {
+    res.send(dados);
+  })
+}
+
+exports.professorDisciplinas = async (req, res) => {
+  const idProfessor = req.body.idProfessor;
+  console.log(`idProfessor: ${idProfessor}`)
+  dbmySQL
+  .Crud_professorDisciplinas(idProfessor)
+  .then((dados) => {
+    res.send(dados);
+  })
+}
+
+exports.professorCriarDisciplina = async (req, res) => {
+  const idProfessor = req.body.idProfessor;
+  const nomeDisciplina = req.body.nomeDisciplina;
+  dbmySQL
+  .Crud_professorCriarDisciplina(idProfessor, nomeDisciplina)
+  .then(() => res.send())
 }

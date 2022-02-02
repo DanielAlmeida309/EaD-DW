@@ -67,6 +67,12 @@ module.exports = app => {
     router.post("/disciplinas/nameDisciplina_nameProfessor", controlador.nameDisciplina_nameProfessor)
 
     router.post("/aluno/name", controlador.alunoName);
+    
+    router.post("/professor/name", controlador.professorName);
+
+    router.post("/professor/disciplinas", controlador.professorDisciplinas);
+
+    router.post("/professor/criarDisciplina", controlador.professorCriarDisciplina)
 
     app.use('/api', router);
 };
