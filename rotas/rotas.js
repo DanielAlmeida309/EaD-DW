@@ -64,5 +64,9 @@ module.exports = app => {
 
     router.get("/disciplinas", controlador.allDisciplinas);
 
+    router.post("/disciplinas/nameDisciplina_nameProfessor", controlador.nameDisciplina_nameProfessor)
+
+    router.post("/aluno/name", controlador.alunoName);
+
     app.use('/api', router);
 };

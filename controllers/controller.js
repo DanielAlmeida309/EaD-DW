@@ -606,3 +606,22 @@ exports.allDisciplinas = async (req, res) => {
     res.send(dados);
   })
 }
+
+exports.nameDisciplina_nameProfessor = async (req, res) => {
+  const idDisciplina = req.body.idDisciplina;
+  dbmySQL
+  .Crud_nameDisciplina_nameProfessor(idDisciplina)
+  .then((dados) => {
+    res.send(dados);
+  })
+}
+
+exports.alunoName = async (req, res) => {
+  const idAluno = req.body.idAluno;
+  console.log(`idAluno: ${idAluno}`)
+  dbmySQL
+  .Crud_alunoName(idAluno)
+  .then((dados) => {
+    res.send(dados);
+  })
+}

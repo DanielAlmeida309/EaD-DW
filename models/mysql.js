@@ -462,3 +462,31 @@ exports.Crud_disciplinas = () => {
     .catch((error => reject(error)));
   })
 }
+
+exports.Crud_nameDisciplina_nameProfessor = (idDisciplina) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT disciplinas.nome AS nomeDisciplina, professores.nome AS nomeProfessor FROM disciplinas JOIN professores ON professores.id = disciplinas.idProfessor WHERE disciplinas.id = ?",
+      [idDisciplina]
+    )
+    .then((result) => {
+      console.log(result);
+      resolve(result);
+    })
+    .catch((error => reject(error)));
+  })
+}
+
+exports.Crud_alunoName = (idAluno) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT nome FROM alunos Where id = ?",
+      [idAluno]
+    )
+    .then((result) => {
+      console.log(result);
+      resolve(result);
+    })
+    .catch((error => reject(error)));
+  })
+}

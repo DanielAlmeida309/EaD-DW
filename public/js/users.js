@@ -190,7 +190,7 @@ function validaLogin() {
 
 
 function alunoPage() {
-  const mainTag = document.querySelector("main");
+  
 
   fetch(`${urlBase}/aluno/disciplina`, {
     headers: {
@@ -208,20 +208,52 @@ function alunoPage() {
     }
     else {
       console.log("carrega pagina da disciplina");
+      alunoPageDisciplina();
     }
   })
 
-  let mainText = `
-      <div class="container">            
-          <div class="row">
-            <div class="col-4 profile">
-              <div class="card" style="width: 18rem;">                    
-                  <div class="card-body">
-                      <h5 class="card-title">Fulano da Silva</h5>
+  
+
+
+}
+
+function alunoPageDisciplina() {
+  const mainTag = document.querySelector("main");
+  
+  
+  fetch(`${urlBase}/aluno/name`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idAluno=${localStorage.userId}`,
+  })
+  .then(async (response) => {
+    let result = await response.json();
+    console.log(result)
+    let mainText = `
+    <div class="container">            
+        <div class="row">
+          <div class="col-4 profile">
+            <div class="card" style="width: 18rem;">                    
+                <div class="card-body">
+                    <h5 class="card-title">${result[0].nome}</h5>
+    `;
+    fetch(`${urlBase}/disciplinas/nameDisciplina_nameProfessor`, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+      body: `idDisciplina=${localStorage.idDisciplina}`,
+    })
+    .then(async (response) => {
+      result = await response.json();
+      console.log(result)
+      mainText += `     
                       <p class="card-text">                            
-                          Disciplina Atual: Desenvolvimento Web
+                          Disciplina Atual: ${result[0].nomeDisciplina}
                           <br>
-                          Professor da Disciplina: Laercio
+                          Professor da Disciplina: ${result[0].nomeProfessor}
                       </p>                        
                       <p>Progresso da Disciplina:</p>
                       <div class="progress">
@@ -243,11 +275,11 @@ function alunoPage() {
                               <p>
                                   
                                   Bacon ipsum dolor amet meatloaf ribeye kielbasa, capicola chislic boudin pork belly pig jerky doner venison flank. Pork porchetta brisket cupim landjaeger ham hock tri-tip pork chop picanha bacon meatball salami. Landjaeger bacon frankfurter jowl tri-tip. Fatback frankfurter tongue, capicola short ribs meatloaf pork chop meatball tail hamburger strip steak swine picanha filet mignon pig. Jerky hamburger andouille pancetta short ribs chuck meatloaf chicken buffalo ham hock ribeye meatball.
-
+  
                                   Ball tip short loin shank landjaeger turducken pork chop bacon doner drumstick picanha pork belly rump beef ham hock tri-tip. Frankfurter sirloin meatloaf buffalo leberkas pork chop. Tail ground round cupim, chuck beef ribs picanha kevin doner ribeye boudin pig tenderloin jowl corned beef shoulder. Prosciutto beef ribs pastrami, chicken buffalo sausage tongue. Spare ribs prosciutto fatback short ribs chuck pancetta frankfurter salami cupim turkey landjaeger. Tail ground round chuck, salami pork chop landjaeger pork shoulder pancetta buffalo.
-
+  
                                   Kielbasa turkey ham shank porchetta shoulder frankfurter burgdoggen bacon spare ribs fatback drumstick. Tri-tip cow landjaeger, jerky pastrami chuck meatloaf buffalo turducken andouille tenderloin venison boudin. Alcatra kevin pork belly, capicola filet mignon pork loin pork jowl brisket salami corned beef pastrami beef ribs cupim. Drumstick pastrami chislic beef ribs swine bacon t-bone ham hock pancetta meatball buffalo shoulder. Short ribs meatball andouille, pork belly capicola sirloin venison leberkas t-bone meatloaf salami tri-tip fatback jowl. Strip steak ribeye pork loin flank corned beef filet mignon burgdoggen turkey porchetta. Pig venison jowl kielbasa, filet mignon shankle ball tip meatball chicken meatloaf short loin short ribs.
-
+  
                                   Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!
                               </p>
                               <br>
@@ -278,11 +310,16 @@ function alunoPage() {
             </div>
           </div>
       </div>
-  `;
-
-  mainTag.innerHTML = mainText;
-
-
+      `;
+  
+    mainTag.innerHTML = mainText;
+    })
+  })
+  
+  
+  
+  
+  
 }
 
 function mainPage() {
@@ -390,6 +427,7 @@ function inscricaoDisciplina(idDisciplina, idAluno) {
     body: `idDisciplina=${idDisciplina}&idAluno=${idAluno}`,
   })
   .then(() => {
+    localStorage.setItem("idDisciplina", idDisciplina);
     alunoPage()
   })
 
