@@ -461,6 +461,8 @@ exports.registarArtigo = async (req, res) => {
   const nome = req.body.nome;
   const assunto = req.body.assunto;
 
+  
+
   dbmySQL
     .Crud_registarArtigo(idDisciplina, nome, assunto) // C: Create
     .then((dados) => {

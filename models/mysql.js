@@ -322,10 +322,13 @@ exports.Crud_registarArtigo = (idDisciplina, nome, assunto) => {
   // insere um novo artigo
   return new Promise((resolve, reject) => {
     data = {
-      idCisciplina: idDisciplina,
+      idDisciplina: idDisciplina,
       nome: nome,
       assunto: assunto
     };
+    console.log(`idDisciplina: ${data.idDisciplina}`);
+    console.log(`nome: ${data.nome}`);
+    console.log(`assunto: ${data.assunto}`);
     query(
       "INSERT INTO Artigos (idDisciplina, nome, assunto) values (?,?,?)",
       [data.idDisciplina, data.nome, data.assunto]

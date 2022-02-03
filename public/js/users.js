@@ -491,7 +491,7 @@ function professorCriarDisciplina() {
     <h2 class="text-center">Criar Nova Disciplina</h2>
     <div class="mb-3">
       <label for="inputNomeDisciplina" class="form-label">Nome da Disciplina</label>
-      <input type="email" class="form-control" id="inputNomeDisciplina" aria-describedby="emailHelp">                      
+      <input type="text" class="form-control" id="inputNomeDisciplina" aria-describedby="emailHelp">                      
     </div>                    
     <button type="submit" class="btn btn-primary" onclick="criarDisciplina(localStorage.userId, document.querySelector('#inputNomeDisciplina').value)">Submit</button>
   `;
@@ -529,7 +529,7 @@ function disciplinaPage(idDisciplina) {
       <h2 class="text-center">${result[0].nome}</h2>
       <div class="btn-group" role="group" aria-label="Basic outlined example">
         <button type="button" class="btn btn-outline-primary" value="${result[0].id}" onclick="listarAlunos(this.value)">Listar Alunos</button>
-        <button type="button" class="btn btn-outline-primary">Adicionar artigo</button>                    
+        <button type="button" class="btn btn-outline-primary" value="${result[0].id}" onclick="adicionarArtigo(this.value)">Adicionar artigo</button>                    
         <button type="button" class="btn btn-outline-primary">Listar artigos</button>                    
       </div>
       <div class="inside-articles"></div>
@@ -552,7 +552,6 @@ function listarAlunos(idDisciplina) {
   .then(async (response) => {
     let result = await response.json();
     console.log(result);
-    console.log("aqui");
     let insideArticlesText = `
       <h5 class="text-center">Lista de Alunos</h5>  
       <ul class="list-group">
@@ -564,8 +563,34 @@ function listarAlunos(idDisciplina) {
 
     insideArticlesText += `</ul>`;
 
-    insideArticlesTag.innerHTML = insideArticlesText;
-    
-    console.log("aqui 2");
+    insideArticlesTag.innerHTML = insideArticlesText; 
+  })
+}
+
+function adicionarArtigo(idDisciplina) {
+  const insideArticlesTag = document.querySelector(".inside-articles");
+  let insideArticlesText = `
+    <h5 class="text-center">Adicionar Artigo</h5>
+    <div class="mb-3">
+      <label for="inputNomeDisciplina" class="form-label">Nome do Artigo</label>
+      <input type="text" class="form-control" id="inputNomeArtigo" aria-describedby="emailHelp">      
+      <label for="inputNomeDisciplina" class="form-label">Texto do Artigo</label>
+      <textarea type="textarea" class="form-control" id="inputTextoArtigo" aria-describedby="emailHelp"></textarea>                
+    </div>                    
+    <button type="submit" class="btn btn-primary" value="${idDisciplina}" onclick="criarArtigo(this.value, document.querySelector('#inputNomeArtigo').value, document.querySelector('#inputTextoArtigo').value)">Submit</button>
+  `;
+  insideArticlesTag.innerHTML = insideArticlesText; 
+}
+
+function criarArtigo(idDisciplina, nome, texto) {
+  fetch(`${urlBase}/registarArtigo`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idDisciplina=${idDisciplina}&nome=${nome}&assunto=${texto}`,
+  })
+  .then((response) => {
+    console.log(response.message);
   })
 }
