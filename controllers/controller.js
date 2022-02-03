@@ -672,3 +672,10 @@ exports.disciplinasAlunos = async (req, res) => {
   .Crud_disciplinasAlunos(idDisciplina)
   .then((dados) => res.send(dados))
 }
+
+exports.disciplinaArtigos = async (req, res) => {
+  const idDisciplina = req.params.id.substr(1);
+  dbmySQL
+  .Crud_disciplinaArtigos(idDisciplina)
+  .then((dados) => res.send(dados))
+}

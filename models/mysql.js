@@ -567,3 +567,13 @@ exports.Crud_disciplinasAlunos = (idDisciplina) => {
     .then((result) => resolve(result));
   })
 }
+
+exports.Crud_disciplinaArtigos = (idDisciplina) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT * FROM artigos WHERE idDisciplina = ?",
+      [idDisciplina]
+    )
+    .then((result) => resolve(result));
+  })
+}

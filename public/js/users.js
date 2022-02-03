@@ -530,7 +530,7 @@ function disciplinaPage(idDisciplina) {
       <div class="btn-group" role="group" aria-label="Basic outlined example">
         <button type="button" class="btn btn-outline-primary" value="${result[0].id}" onclick="listarAlunos(this.value)">Listar Alunos</button>
         <button type="button" class="btn btn-outline-primary" value="${result[0].id}" onclick="adicionarArtigo(this.value)">Adicionar artigo</button>                    
-        <button type="button" class="btn btn-outline-primary">Listar artigos</button>                    
+        <button type="button" class="btn btn-outline-primary" value="${result[0].id}" onclick="listarArtigos(this.value)">Listar artigos</button>                    
       </div>
       <div class="inside-articles"></div>
     `;
@@ -592,5 +592,43 @@ function criarArtigo(idDisciplina, nome, texto) {
   })
   .then((response) => {
     console.log(response.message);
+  })
+}
+
+function listarArtigos(idDisciplina) {
+  const insideArticlesTag = document.querySelector(".inside-articles");
+  fetch(`${urlBase}/disciplina/artigos/:${idDisciplina}`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "GET", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    
+  })
+  .then(async (response) => {
+    let result = await response.json();
+    let insideArticlesText = `
+      <h5 class="text-center">Lista de Artigos</h5>  
+      <ul class="list-group">
+    `;
+
+    for(let obj of result) {
+      insideArticlesText += `
+        <li class="list-group-item list-group-item-action" >
+          <p data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              ${obj.nome}                           
+          </p>
+          
+          <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <p>${obj.assunto}</p>
+              </div>
+          </div>
+        </li>
+      `;
+    }
+
+    insideArticlesText += `</ul>`;
+
+    insideArticlesTag.innerHTML = insideArticlesText; 
   })
 }
