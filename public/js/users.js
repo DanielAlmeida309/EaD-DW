@@ -473,7 +473,7 @@ function professorListarDisciplinas() {
     `;
 
     for(let obj of result) {
-      articleText += `<button type="button" class="list-group-item list-group-item-action" value="${obj.id}">${obj.nome}</button>`
+      articleText += `<button type="button" class="list-group-item list-group-item-action" value="${obj.id}" onclick="disciplinaPage(this.value)">${obj.nome}</button>`
     }
 
     articleText += `
@@ -511,4 +511,61 @@ function criarDisciplina(idProfessor, nomeDisciplina) {
   })
   .catch(error => console.log);
 
+}
+
+function disciplinaPage(idDisciplina) {  
+  const articleTag = document.querySelector(".articles");
+
+  fetch(`${urlBase}/disciplina`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idDisciplina=${idDisciplina}`,
+  })
+  .then(async (response) => {
+    let result = await response.json();
+    let articleText = `
+      <h2 class="text-center">${result[0].nome}</h2>
+      <div class="btn-group" role="group" aria-label="Basic outlined example">
+        <button type="button" class="btn btn-outline-primary" value="${result[0].id}" onclick="listarAlunos(this.value)">Listar Alunos</button>
+        <button type="button" class="btn btn-outline-primary">Adicionar artigo</button>                    
+        <button type="button" class="btn btn-outline-primary">Listar artigos</button>                    
+      </div>
+      <div class="inside-articles"></div>
+    `;
+    articleTag.innerHTML = articleText;
+  })
+
+  
+}
+
+function listarAlunos(idDisciplina) {
+  const insideArticlesTag = document.querySelector(".inside-articles");
+  fetch(`${urlBase}/disciplina/alunos`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idDisciplina=${idDisciplina}`,
+  })
+  .then(async (response) => {
+    let result = await response.json();
+    console.log(result);
+    console.log("aqui");
+    let insideArticlesText = `
+      <h5 class="text-center">Lista de Alunos</h5>  
+      <ul class="list-group">
+    `;
+
+    for(let obj of result) {
+      insideArticlesText += `<li class="list-group-item">Nome: ${obj.nome}, Email: ${obj.email} </li>`;
+    }
+
+    insideArticlesText += `</ul>`;
+
+    insideArticlesTag.innerHTML = insideArticlesText;
+    
+    console.log("aqui 2");
+  })
 }

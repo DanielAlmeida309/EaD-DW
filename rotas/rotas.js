@@ -72,7 +72,11 @@ module.exports = app => {
 
     router.post("/professor/disciplinas", controlador.professorDisciplinas);
 
-    router.post("/professor/criarDisciplina", controlador.professorCriarDisciplina)
+    router.post("/professor/criarDisciplina", controlador.professorCriarDisciplina);
+
+    router.post("/disciplina", controlador.disciplina);
+
+    router.post("/disciplina/alunos", controlador.disciplinasAlunos);
 
     app.use('/api', router);
 };

@@ -654,3 +654,19 @@ exports.professorCriarDisciplina = async (req, res) => {
   .Crud_professorCriarDisciplina(idProfessor, nomeDisciplina)
   .then(() => res.send())
 }
+
+exports.disciplina = async (req, res) => {
+  const idDisciplina = req.body.idDisciplina;
+  dbmySQL
+  .Crud_disciplina(idDisciplina)
+  .then((dados) => {
+    res.send(dados);
+  })
+}
+
+exports.disciplinasAlunos = async (req, res) => {
+  const idDisciplina = req.body.idDisciplina;
+  dbmySQL
+  .Crud_disciplinasAlunos(idDisciplina)
+  .then((dados) => res.send(dados))
+}

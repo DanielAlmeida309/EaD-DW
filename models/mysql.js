@@ -541,3 +541,26 @@ exports.Crud_professorCriarDisciplina = (idProfessor, nomeDisciplina) => {
     });
   })
 }
+
+exports.Crud_disciplina = (idDisciplina) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT * FROM disciplinas WHERE id = ?",
+      [idDisciplina]
+    )
+    .then((result) => {
+      resolve(result);
+    })
+  })
+}
+
+exports.Crud_disciplinasAlunos = (idDisciplina) => {
+  console.log(`idDisciplina: ${idDisciplina}`);
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT alunos.nome, alunos.email FROM alunos JOIN inscricoes ON alunos.id = inscricoes.idAluno WHERE inscricoes.idDisciplina = ?",
+      [idDisciplina]
+    )
+    .then((result) => resolve(result));
+  })
+}
