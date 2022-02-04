@@ -679,3 +679,23 @@ exports.disciplinaArtigos = async (req, res) => {
   .Crud_disciplinaArtigos(idDisciplina)
   .then((dados) => res.send(dados))
 }
+
+exports.registarLeituraArtigo = async (req, res) => {
+  const idAluno = req.body.idAluno;
+  const idArtigo = req.body.idArtigo;
+  dbmySQL
+  .Crud_registarLeituraArtigo(idAluno, idArtigo)
+  .then(() => res.send())
+}
+
+exports.confirmarLeituraArtigo = async (req, res) => {
+  const idAluno = req.body.idAluno;
+  const idArtigo = req.body.idArtigo;
+  dbmySQL
+  .Crud_confirmarLeituraArtigo(idAluno, idArtigo)
+  .then((dados) => {
+    console.log(dados.length);
+    if(dados.length == 0) res.status(200).send();
+    res.status(204).send();
+  })
+}

@@ -386,16 +386,74 @@ function alunoListarArtigos(idDisciplina) {
           <div class="collapse" id="collapseExample">
               <div class="card card-body">
                   <p>${obj.assunto}</p>
+      `;
+      await fetch(`${urlBase}/aluno/confirmarLeituraArtigo`, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+        body: `idArtigo=${obj.id}&idAluno=${localStorage.userId}`,
+      })
+      .then((response) => {
+        if(response.status == 200) {
+          insideArticlesText += `
+                  <button type="button" class="btn btn-outline-success btn-sm" value="${obj.id}" onclick="registarLeituraArtigo(this.value, localStorage.userId)">Confirmar Leitura</button>
+          `;
+        }
+        else {
+          insideArticlesText += `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Artigo lido
+            </label>
+          </div>
+          `;
+        }
+        insideArticlesText += `
               </div>
           </div>
+          
         </li>
-      `;
+        `;
+      })
     }
 
     insideArticlesText += `</ul>`;
 
     insideArticlesTag.innerHTML = insideArticlesText; 
   })
+}
+
+function registarLeituraArtigo(idArtigo, idAluno) {
+  fetch(`${urlBase}/aluno/registarLeituraArtigo`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idArtigo=${idArtigo}&idAluno=${idAluno}`,
+  })
+  .then(() => {
+    alunoPage();
+  })
+}
+
+const confirmarLeituraArtigo = async (idArtigo, idAluno) => {
+  fetch(`${urlBase}/aluno/confirmarLeituraArtigo`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    body: `idArtigo=${idArtigo}&idAluno=${idAluno}`,
+  })
+  .then((response) => {
+    console.log(response.status);
+    console.log(response.status == 200);
+    if(response.status == 200) return true;
+    return false;
+    
+  })
+  .catch((error) => console.log(error))
 }
 
 function inscricaoDisciplina(idDisciplina, idAluno) {

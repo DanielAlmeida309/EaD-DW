@@ -577,3 +577,41 @@ exports.Crud_disciplinaArtigos = (idDisciplina) => {
     .then((result) => resolve(result));
   })
 }
+
+exports.Crud_registarLeituraArtigo = (idAluno, idArtigo) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "INSERT INTO alunoartigo (idAluno, idArtigo, visto) VALUES (?,?,?)",
+      [idAluno, idArtigo, 1]
+    )
+    .then((result) => {
+      console.log("Model: Registo de inscrição: ");
+      if (result.affectedRows != 1) {        
+        reject("Model: Problema na inserção de novo registo");
+      }
+      else {        
+        resolve(result);
+      }
+    })
+    .catch((error) => {
+      console.log("Model: Problema no registo:");
+      console.log(error);
+      reject(error);
+    });
+  })
+}
+
+exports.Crud_confirmarLeituraArtigo = (idAluno, idArtigo) => {
+  return new Promise((resolve, reject) => {
+    query(
+      "SELECT * FROM alunoartigo WHERE idAluno = ? AND idArtigo = ?",
+      [idAluno, idArtigo]
+    )
+    .then((result) => {
+      resolve(result)
+    })
+    .catch((error) => {
+      reject(error);
+    });
+  })
+}
