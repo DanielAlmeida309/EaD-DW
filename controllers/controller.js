@@ -695,7 +695,11 @@ exports.confirmarLeituraArtigo = async (req, res) => {
   .Crud_confirmarLeituraArtigo(idAluno, idArtigo)
   .then((dados) => {
     console.log(dados.length);
-    if(dados.length == 0) res.status(200).send();
-    res.status(204).send();
+    if(dados.length == 0) {
+      res.status(200).send();
+    }
+    else {
+      res.status(204).send();
+    }
   })
 }

@@ -379,11 +379,11 @@ function alunoListarArtigos(idDisciplina) {
     for(let obj of result) {
       insideArticlesText += `
         <li class="list-group-item list-group-item-action" >
-          <p data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <p data-bs-toggle="collapse" data-bs-target="#collapseArtigo${obj.id}" aria-expanded="false" aria-controls="collapseArtigo${obj.id}">
               ${obj.nome}                           
           </p>
           
-          <div class="collapse" id="collapseExample">
+          <div class="collapse" id="collapseArtigo${obj.id}">
               <div class="card card-body">
                   <p>${obj.assunto}</p>
       `;
@@ -403,7 +403,7 @@ function alunoListarArtigos(idDisciplina) {
         else {
           insideArticlesText += `
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <input class="form-check-input" type="radio" name="flexRadio${obj.id}" id="flexRadio${obj.id}" checked>
             <label class="form-check-label" for="flexRadioDefault2">
               Artigo lido
             </label>
@@ -669,11 +669,11 @@ function listarArtigos(idDisciplina) {
     for(let obj of result) {
       insideArticlesText += `
         <li class="list-group-item list-group-item-action" >
-          <p data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <p data-bs-toggle="collapse" data-bs-target="#collapseArtigo${obj.id}" aria-expanded="false" aria-controls="collapseArtigo${obj.id}">
               ${obj.nome}                           
           </p>
           
-          <div class="collapse" id="collapseExample">
+          <div class="collapse" id="collapseArtigo${obj.id}">
               <div class="card card-body">
                   <p>${obj.assunto}</p>
               </div>
