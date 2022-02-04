@@ -310,58 +310,17 @@ function alunoPageDisciplina() {
                 </div>
             </div>
             <div class="col-8 articles">
-                <h2 class="text-center">Articles</h2>
-              <ul class="list-group">
-                  <li class="list-group-item" >
-                      <p data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                          Name of the Article                            
-                      </p>
-                      
-                      <div class="collapse" id="collapseExample">
-                          <div class="card card-body">
-                              <p>
-                                  
-                                  Bacon ipsum dolor amet meatloaf ribeye kielbasa, capicola chislic boudin pork belly pig jerky doner venison flank. Pork porchetta brisket cupim landjaeger ham hock tri-tip pork chop picanha bacon meatball salami. Landjaeger bacon frankfurter jowl tri-tip. Fatback frankfurter tongue, capicola short ribs meatloaf pork chop meatball tail hamburger strip steak swine picanha filet mignon pig. Jerky hamburger andouille pancetta short ribs chuck meatloaf chicken buffalo ham hock ribeye meatball.
-  
-                                  Ball tip short loin shank landjaeger turducken pork chop bacon doner drumstick picanha pork belly rump beef ham hock tri-tip. Frankfurter sirloin meatloaf buffalo leberkas pork chop. Tail ground round cupim, chuck beef ribs picanha kevin doner ribeye boudin pig tenderloin jowl corned beef shoulder. Prosciutto beef ribs pastrami, chicken buffalo sausage tongue. Spare ribs prosciutto fatback short ribs chuck pancetta frankfurter salami cupim turkey landjaeger. Tail ground round chuck, salami pork chop landjaeger pork shoulder pancetta buffalo.
-  
-                                  Kielbasa turkey ham shank porchetta shoulder frankfurter burgdoggen bacon spare ribs fatback drumstick. Tri-tip cow landjaeger, jerky pastrami chuck meatloaf buffalo turducken andouille tenderloin venison boudin. Alcatra kevin pork belly, capicola filet mignon pork loin pork jowl brisket salami corned beef pastrami beef ribs cupim. Drumstick pastrami chislic beef ribs swine bacon t-bone ham hock pancetta meatball buffalo shoulder. Short ribs meatball andouille, pork belly capicola sirloin venison leberkas t-bone meatloaf salami tri-tip fatback jowl. Strip steak ribeye pork loin flank corned beef filet mignon burgdoggen turkey porchetta. Pig venison jowl kielbasa, filet mignon shankle ball tip meatball chicken meatloaf short loin short ribs.
-  
-                                  Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!
-                              </p>
-                              <br>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                  <label class="form-check-label" for="flexCheckDefault">
-                                    Artigo lido
-                                  </label>
-                              </div>
-                          </div>
-                      </div>
-                  </li>
-                  <li class="list-group-item" >A second item</li>
-                  <li class="list-group-item" >A third item</li>
-                  <li class="list-group-item" >A fourth item</li>
-                  <li class="list-group-item" >And a fifth one</li>
-                  <li class="list-group-item" >An item</li>
-                  <li class="list-group-item" >A second item</li>
-                  <li class="list-group-item" >A third item</li>
-                  <li class="list-group-item" >A fourth item</li>
-                  <li class="list-group-item" >And a fifth one</li>
-                  <li class="list-group-item" >An item</li>
-                  <li class="list-group-item" >A second item</li>
-                  <li class="list-group-item" >A third item</li>
-                  <li class="list-group-item" >A fourth item</li>
-                  <li class="list-group-item" >And a fifth one</li>
-                </ul>
+
             </div>
           </div>
       </div>
-    `;
+      `;
   
-    mainTag.innerHTML = mainText;
+      mainTag.innerHTML = mainText;
+      alunoListarArtigos(localStorage.idDisciplina);
     })
-  })  
+  })
+  
 }
 
 function alunoRegistoDisciplina() {
@@ -399,6 +358,44 @@ function alunoRegistoDisciplina() {
     mainTag.innerHTML = mainText;
   })
   .catch(error => console.log)
+}
+
+function alunoListarArtigos(idDisciplina) {
+  const insideArticlesTag = document.querySelector(".articles");  
+  fetch(`${urlBase}/disciplina/artigos/:${idDisciplina}`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "GET", // o login não vai criar nada, só ver se o user existe e a pass está correta
+    
+  })
+  .then(async (response) => {
+    let result = await response.json();
+    let insideArticlesText = `
+      <h5 class="text-center">Lista de Artigos</h5>  
+      <ul class="list-group">
+    `;
+
+    for(let obj of result) {
+      insideArticlesText += `
+        <li class="list-group-item list-group-item-action" >
+          <p data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              ${obj.nome}                           
+          </p>
+          
+          <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                  <p>${obj.assunto}</p>
+              </div>
+          </div>
+        </li>
+      `;
+    }
+
+    insideArticlesText += `</ul>`;
+
+    insideArticlesTag.innerHTML = insideArticlesText; 
+  })
 }
 
 function inscricaoDisciplina(idDisciplina, idAluno) {
