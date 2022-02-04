@@ -301,23 +301,37 @@ function alunoPageDisciplina() {
                           Disciplina Atual: ${result[0].nomeDisciplina}
                           <br>
                           Professor da Disciplina: ${result[0].nomeProfessor}
-                      </p>                        
-                      <p>Progresso da Disciplina:</p>
-                      <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>                      
-                  </div>
-                </div>
-            </div>
-            <div class="col-8 articles">
-
-            </div>
-          </div>
-      </div>
+                      </p>
       `;
-  
-      mainTag.innerHTML = mainText;
-      alunoListarArtigos(localStorage.idDisciplina);
+      fetch(`${urlBase}/aluno/progressoDisciplina`, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
+        body: `idDisciplina=${localStorage.idDisciplina}&idAluno=${localStorage.userId}`,
+      })
+      .then(async (response) => {
+        let result = await response.json();
+        console.log(`result: ${result.progresso}`);
+        mainText += `                      
+                        <p>Progresso da Disciplina:</p>
+                        <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: ${result.progresso}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>                      
+                    </div>
+                  </div>
+              </div>
+              <div class="col-8 articles">
+
+              </div>
+            </div>
+        </div>
+        `;
+    
+        mainTag.innerHTML = mainText;
+        alunoListarArtigos(localStorage.idDisciplina);
+      })
+      
     })
   })
   
@@ -436,24 +450,6 @@ function registarLeituraArtigo(idArtigo, idAluno) {
   .then(() => {
     alunoPage();
   })
-}
-
-const confirmarLeituraArtigo = async (idArtigo, idAluno) => {
-  fetch(`${urlBase}/aluno/confirmarLeituraArtigo`, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    method: "POST", // o login não vai criar nada, só ver se o user existe e a pass está correta
-    body: `idArtigo=${idArtigo}&idAluno=${idAluno}`,
-  })
-  .then((response) => {
-    console.log(response.status);
-    console.log(response.status == 200);
-    if(response.status == 200) return true;
-    return false;
-    
-  })
-  .catch((error) => console.log(error))
 }
 
 function inscricaoDisciplina(idDisciplina, idAluno) {
@@ -647,6 +643,7 @@ function criarArtigo(idDisciplina, nome, texto) {
   })
   .then((response) => {
     console.log(response.message);
+    listarArtigos(idDisciplina)
   })
 }
 

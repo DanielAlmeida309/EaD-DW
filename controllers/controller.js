@@ -703,3 +703,14 @@ exports.confirmarLeituraArtigo = async (req, res) => {
     }
   })
 }
+
+exports.progressoDisciplina = async (req, res) => {
+  const idDisciplina = req.body.idDisciplina;
+  const idAluno = req.body.idAluno;
+  dbmySQL
+  .Crud_progressoDisciplina(idDisciplina, idAluno)
+  .then((dados) => {
+    console.log(`controler dados: ${dados}`);
+    res.send({progresso: dados})
+  })
+}

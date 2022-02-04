@@ -1,4 +1,5 @@
 const { reject } = require("bcrypt/promises");
+const res = require("express/lib/response");
 const mysql = require("mysql2/promise");
 const config = require("../config");
 
@@ -610,6 +611,29 @@ exports.Crud_confirmarLeituraArtigo = (idAluno, idArtigo) => {
     .then((result) => {
       resolve(result)
     })
+    .catch((error) => {
+      reject(error);
+    });
+  })
+}
+
+exports.Crud_progressoDisciplina = (idDisciplina, idAluno) => {
+  return new Promise((resolve, reject) => {
+    query(
+        "SELECT count(*) FROM alunoartigo WHERE idAluno = ?",
+        [idAluno]
+    )
+    .then((artigosLidos => {      
+      query(
+        "SELECT count(*) FROM artigos WHERE idDisciplina = ?",
+        [idDisciplina]
+      )
+      .then((artigosTotais) => {
+        console.log(`artigosLidos: ${artigosLidos[0]["count(*)"]}`);
+        console.log(`artigosTotais: ${artigosTotais[0]["count(*)"]}`);
+        resolve(artigosLidos[0]["count(*)"]/artigosTotais[0]["count(*)"]*100);
+      })
+    }))
     .catch((error) => {
       reject(error);
     });

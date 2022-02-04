@@ -84,5 +84,7 @@ module.exports = app => {
     
     router.post("/aluno/confirmarLeituraArtigo", controlador.confirmarLeituraArtigo);
 
+    router.post("/aluno/progressoDisciplina", controlador.progressoDisciplina);
+
     app.use('/api', router);
 };
