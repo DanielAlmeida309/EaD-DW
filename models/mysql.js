@@ -2,6 +2,7 @@ const { reject } = require("bcrypt/promises");
 const res = require("express/lib/response");
 const mysql = require("mysql2/promise");
 const config = require("../config");
+const { questionarioDisciplina } = require("../controllers/controller");
 
 function connect() {
   return new Promise((resolve, reject) => {
@@ -256,11 +257,13 @@ exports.cRud_artigosDisciplina = (id) => {
 exports.cRud_perguntasDisciplina = (id) => {
   return new Promise((resolve, reject) => {
     // busca os registos que contêm a chave
-    query("SELECT Perguntas.id, Perguntas.pergunta, Pergunta.resposta1, Pergunta.resposta2, Pergunta.resposta3, Pergunta.resposta4, Pergunta.resposta5 FROM Perguntas WHERE idDisciplina=?", [id])
+    query("SELECT id, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5, certa FROM perguntas WHERE idDisciplina=?", [id])
       .then((result) => {
+        console.log(result);
         resolve(result);
       })
       .catch((error) => {
+        console.log(error);
         reject(error);
       });
   });
@@ -354,7 +357,7 @@ exports.Crud_registarPergunta = (idDisciplina, pergunta, resposta1, resposta2, r
   // insere uma nova pergunta
   return new Promise((resolve, reject) => {
     data = {
-      idCisciplina: idDisciplina,
+      idDisciplina: idDisciplina,
       pergunta: pergunta,
       resposta1: resposta1,
       resposta2: resposta2,
@@ -364,7 +367,7 @@ exports.Crud_registarPergunta = (idDisciplina, pergunta, resposta1, resposta2, r
       certa: certa
     };
     query(
-      "INSERT INTO Perguntas (idDisciplina, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5, certa) values (?,?,?,?,?,?,?,?)",
+      "INSERT INTO perguntas (idDisciplina, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5, certa) values (?,?,?,?,?,?,?,?)",
       [data.idDisciplina, data.pergunta, data.resposta1, data.resposta2, data.resposta3, data.resposta4, data.resposta5, data.certa]
     )
       .then((result) => {
@@ -625,7 +628,7 @@ exports.Crud_progressoDisciplina = (idDisciplina, idAluno) => {
     )
     .then((artigosLidos => {      
       query(
-        "SELECT count(*) FROM artigos WHERE idDisciplina = ?",
+        "SELECT count(*) FROM Artigos WHERE idDisciplina = ?",
         [idDisciplina]
       )
       .then((artigosTotais) => {
@@ -639,3 +642,97 @@ exports.Crud_progressoDisciplina = (idDisciplina, idAluno) => {
     });
   })
 }
+
+exports.Crud_questionarioDisciplina = async (idDisciplina, idAluno) => {
+  return new Promise((resolve, reject) => {
+    query(
+        "SELECT id, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5 FROM Perguntas WHERE  idDisciplina = ?",
+        [idDisciplina]
+      )
+      .then( (todasPerguntas => {
+        var quests = [];
+        var tamanho = todasPerguntas.length-1;
+        var listNumbers = [];
+        for (let i = 0; listNumbers.length != 5; i++) {
+          let num = getRandom(tamanho);
+          if(listNumbers.indexOf(num) <= -1) {
+            listNumbers.push(num);
+          }
+        }
+        for (let i = 0; i < 5; i++) {
+          quests.push(todasPerguntas[listNumbers[i]]);
+        }
+        console.log("questoes: ", quests);
+        console.log("lista de numeros: ", listNumbers);
+        resolve(quests);
+      }))
+    .catch((error) => {
+      reject(error);
+    });
+
+})};
+
+function getRandom(max) {
+  return Math.floor(Math.random() * max + 1)
+}
+
+exports.Crud_checkQuestionario = async (idAluno, idDisciplina, idPergunta1, idPergunta2, idPergunta3, idPergunta4, idPergunta5, resposta1, resposta2, resposta3, resposta4, resposta5) => {
+  return new Promise((resolve, reject) => {
+    var certas = []
+    query(
+      "SELECT certa FROM perguntas WHERE id = ?",
+      [idPergunta1]
+    )
+    .then(certa1 => {
+      certas.pull(certa1);
+      query(
+        "SELECT certa FROM perguntas WHERE id = ?",
+        [idPergunta2]
+      )
+    })
+    .then(certa2 => {
+      certas.pull(certa2);
+      query(
+        "SELECT certa FROM perguntas WHERE id = ?",
+        [idPergunta3]
+      )
+      .then(certa3 => {
+        certas.pull(certa3);
+        query(
+          "SELECT certa FROM perguntas WHERE id = ?",
+          [idPergunta4]
+        )
+        .then(certa4 => {
+          certas.pull(certa4);
+          query(
+            "SELECT certa FROM perguntas WHERE id = ?",
+            [idPergunta5]
+          )
+          .then(certa5 => {
+            certas.pull(certa5);
+            var point = 0;
+            if(certas[0] == resposta1){
+              points +=1;
+            }
+            if(certas[1] == resposta2){
+              points +=1;
+            }
+            if(certas[2] == resposta3){
+              points +=1;
+            }
+            if(certas[3] == resposta4){
+              points +=1;
+            }
+            if(certas[4] == resposta5){
+              points +=1;
+            }
+            if(points >= 3){
+              resolve(1);
+            }else{
+              resolve(0);
+            }
+          })
+        })
+      })
+    })
+})}

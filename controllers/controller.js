@@ -341,9 +341,9 @@ exports.findPerguntasDisciplina = async (req, res) => {
   authenticateToken(req, res);
     // utilizador autenticado
     console.log("Find All Questions by disciplina Id");
-    console.log("Parâmetro: " + req.params.id);
+    console.log("Parâmetro: " + req.body.idDisciplina);
     //Deve implementar esta funcionalidade...
-    const id = req.params.id.substr(1); // faz substring a partir do segundo carater
+    const id = req.body.idDisciplina; // faz substring a partir do segundo carater
     dbmySQL
       .cRud_perguntasDisciplina(id) // R: Read
       .then((dados) => {
@@ -353,7 +353,6 @@ exports.findPerguntasDisciplina = async (req, res) => {
       .catch((err) => {
         return res
           .status(400)
-          .send({ message: "Não há disciplinas para mostrar!" });
       });
 };
 
@@ -497,9 +496,7 @@ exports.registarPerguntas = async (req, res) => {
   const resposta3 = req.body.resposta3;
   const resposta4 = req.body.resposta4;
   const resposta5 = req.body.resposta5;
-  const certa = req.body.certa;
-
-
+  const certa = req.body.respostaCerta;
   dbmySQL
     .Crud_registarPergunta(idDisciplina, pergunta, resposta1, resposta2, resposta3, resposta4, resposta5, certa) // C: Create
     .then((dados) => {
@@ -710,6 +707,37 @@ exports.progressoDisciplina = async (req, res) => {
   .Crud_progressoDisciplina(idDisciplina, idAluno)
   .then((dados) => {
     console.log(`controler dados: ${dados}`);
-    res.send({progresso: dados})
+    res.send({progresso: dados});
+  })
+}
+
+exports.questionarioDisciplina = async (req, res) => {
+  const idDisciplina = req.body.idDisciplina;
+  const idAluno = req.body.idAluno;
+  dbmySQL
+  .Crud_questionarioDisciplina(idDisciplina, idAluno)
+  .then((dados) => {
+    console.log(`controler dados: ${dados}`);
+    res.send({questionario: dados});
+  });
+}
+
+exports.checkQuestionario = async (req, res) => {
+  const idAluno = req.body.idAluno;
+  const idDisciplina = req.body.idDisciplina;
+  const idPergunta1 = req.body.pergunta1;
+  const idPergunta2 = req.body.pergunta2;
+  const idPergunta3 = req.body.pergunta3;
+  const idPergunta4 = req.body.pergunta4;
+  const idPergunta5 = req.body.pergunta5;
+  const resposta1 = req.body.resposta1;
+  const resposta2 = req.body.resposta2;
+  const resposta3 = req.body.resposta3;
+  const resposta4 = req.body.resposta4;
+  const resposta5 = req.body.resposta5;
+  dbmySQL.
+  Crud_checkQuestionario(idAluno, idDisciplina, idPergunta1, idPergunta2, idPergunta3, idPergunta4, idPergunta5, resposta1, resposta2, resposta3, resposta4, resposta5)
+  .then((dados) => {
+    res.send(dados);
   })
 }

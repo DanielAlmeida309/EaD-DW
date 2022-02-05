@@ -2,7 +2,7 @@ CREATE TABLE Alunos(
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome char(20) NOT NULL,
     email varchar(50) NOT NULL UNIQUE,
-    pass varchar(1)  NOT NULL,
+    pass varchar(150)  NOT NULL,
     active BOOLEAN NOT NULL DEFAULT FALSE,
     confirmationToken varchar(256) NOT NULL
 );

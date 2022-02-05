@@ -40,10 +40,10 @@ module.exports = app => {
     router.get("/artigo/:id", controlador.findArtigo);
 
     // Busca todas as perguntas de uma disciplina
-    router.get("/perguntas/disciplina/:id", controlador.findPerguntasDisciplina);
+    router.post("/perguntas/disciplina", controlador.findPerguntasDisciplina);
 
     // Verifica se as repostas dadas no questionario estão certas
-    //router.post("questionario/disciplina/:id", controlador.checkQuestionario);
+    router.post("questionario/disciplina", controlador.checkQuestionario);
 
     // Cria uma nova disciplina
     router.post("/registarDisciplina", controlador.registarDisciplina);
@@ -85,6 +85,9 @@ module.exports = app => {
     router.post("/aluno/confirmarLeituraArtigo", controlador.confirmarLeituraArtigo);
 
     router.post("/aluno/progressoDisciplina", controlador.progressoDisciplina);
+
+    // Selecionar 5 perguntas da lista de perguntas da disciplina
+    router.post("/disciplina/questionario", controlador.questionarioDisciplina);
 
     app.use('/api', router);
 };
