@@ -1,5 +1,4 @@
 require("dotenv").config();
-const db = require("../models/nedb"); // Define o MODEL que vamos usar
 
 const dbmySQL = require("../models/mysql"); // Define o MODEL mySQL
 const bcrypt = require("bcrypt");
